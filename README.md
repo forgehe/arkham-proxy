@@ -1,5 +1,9 @@
 # Arkham Proxy
 
+Original from: https://gitlab.com/ahiskali/arkham-proxy/-/tree/master
+
+Only created for easier personal hosting off DigitalOcean
+
 This is a simple web app to get a pdf of cards from a deck on [Arkhamdb](https://arkhamdb.com/).
 
 ~~It's live at [https://arkham-proxy.herokuapp.com/](https://arkham-proxy.herokuapp.com/)~~
