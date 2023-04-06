@@ -1,13 +1,16 @@
-Please provide a deck from <%= link_to "ArkhamDB", "https://arkhamdb.com"%>
+Please provide a deck from <%= link_to "ArkhamDB", "https://arkhamdb.com"%> 
+
+Note: sideboard cards are not included
+
 <p>
 <%= form_tag('/deck', method: "get") do %>
-  <%= label_tag(:q, "Deck id or link") %>
+  <%= label_tag(:q, "Decklist ID or link ") %>
   <%= text_field_tag(:id) %>
   <%= submit_tag("Get pdf") %>
 <% end %>
 
 <%= form_tag('/udeck', method: "get") do %>
-  <%= label_tag(:q, "Deck id or link") %>
+  <%= label_tag(:q, "Unpublished Deck ID or link ") %>
   <%= text_field_tag(:id) %>
   <%= submit_tag("Get pdf") %>
 <% end %>
