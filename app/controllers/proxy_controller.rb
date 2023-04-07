@@ -8,7 +8,7 @@ class ProxyController < ActionController::Base
     # /(?<deckType>decklist|deck)/i =~ params[:id]
     puts data
     puts "id: " data[:id] + "  decktype: " data[:deckType]
-    cards = card_ids(id, deckType).transform_keys { |card_id| card_image_url(card_id) }
+    cards = card_ids(data[:id], data[:deckType]).transform_keys { |card_id| card_image_url(card_id) }
     send_data PdfGenerator.generate(cards), filename: "cards.pdf"
   rescue
     flash.alert = "Deck not found"
