@@ -1,15 +1,68 @@
-Please provide a deck from <%= link_to "ArkhamDB", "https://arkhamdb.com"%> 
-<br>
-Note: sideboard cards are not included
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Arkham Horror Proxy Generator</title>
+    <link href="https://fonts.googleapis.com/css?family=Hind+Vadodara:400,700|Mukta:500,700" rel="stylesheet">
+    <link rel="stylesheet" href="dist/css/style.css">
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+</head>
+<body class="is-boxed has-animations">
+    <div class="body-wrap boxed-container">
+        <header class="site-header">
+            <div class="container">
+            </div>
+        </header>
 
-<p>
-<%= form_tag('/deck', method: "get") do %>
-  <%= label_tag(:q, "Decklist ID or link ") %>
-  <%= text_field_tag(:id) %>
-  <%= submit_tag("Get pdf") %>
-<% end %>
+        <main>
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-inner">
+                        <div class="hero-copy">
+                            <h1 class="hero-title h2-mobile mt-0 is-revealing">Arkham Horror LCG Proxy Generator</h1>
+                            <p class="hero-paragraph is-revealing">Create proxies for Arkham Horror decks from ArkhamDB.com</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-<% if flash[:alert] %>
-    <div class="alert"> <%= flash[:alert] %> </div>
-<% end %>
-</p>
+            <section class="section">
+                <div class="container">
+                    <div class="section-inner has-top-divider">
+                        <h2 class="section-title mt-0 text-center">Deck Import</h2>
+                        <h3>Note: sideboard cards are not included</h3>
+                        <p>
+                          <%= form_tag('/deck', method: "get") do %>
+                            <%= label_tag(:q, "Decklist link") %>
+                            <%= text_field_tag(:id) %>
+                            <%= submit_tag("Get pdf") %>
+                          <% end %>
+
+                          <% if flash[:alert] %>
+                              <div class="alert"> <%= flash[:alert] %> </div>
+                          <% end %>
+                        </p>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer text-light">
+            <div class="container">
+                <div class="site-footer-inner has-top-divider">
+                    <div class="brand footer-brand">
+
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>
+
+<%= stylesheet_link_tag 'application' %>  
+<%=javascript_include_tag 'application'%> 
