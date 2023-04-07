@@ -24,17 +24,9 @@ module PdfGenerator
         pdf.start_new_page
       end
     end
-    # if ((@@x_position += 182) > 700)
-    #   @@x_position = 0
-    #   if ((@@y_position -= 253) < 100)
-    #     @@y_position = 520
-    #     pdf.start_new_page
-    #   end
-    # end
   end
 
   def self.reset_cursor
-    # @@y_position = 520
     @@y_position = 10.75.in
     @@x_position = 0.5.in
   end
