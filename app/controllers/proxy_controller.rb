@@ -3,9 +3,11 @@ class ProxyController < ActionController::Base
   end
 
   def new
-    /(?<id>\d+)/ =~ params[:id]
-    /(?<deckType>decklist|deck)/i =~ params[:id]
-    puts "id: " id + "  decktype: " deckType
+    data = params[:id].match(/(?<deckType>decklist|deck)\/view\/(?<id>\d{2,9})/i)
+    # /(?<id>\d{2,9})/ =~ params[:id]
+    # /(?<deckType>decklist|deck)/i =~ params[:id]
+    puts data
+    puts "id: " data[:id] + "  decktype: " data[:deckType]
     cards = card_ids(id, deckType).transform_keys { |card_id| card_image_url(card_id) }
     send_data PdfGenerator.generate(cards), filename: "cards.pdf"
   rescue
