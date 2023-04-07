@@ -1,3 +1,8 @@
+@import "../abstracts/include-media";
+@import "../abstracts/mixins";
+@import "../abstracts/variables";
+@import "../abstracts/functions";
+
 html {
   box-sizing: border-box;
 }
@@ -18,12 +23,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-// hr {
-// 	border: 0;
-// 	@include divider();
-// 	margin-top: 24px;
-// 	margin-bottom: 24px;
-// }
+hr {
+  border: 0;
+  @include divider();
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
 
 ul,
 ol {
