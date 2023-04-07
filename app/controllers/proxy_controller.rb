@@ -3,9 +3,10 @@ class ProxyController < ActionController::Base
   end
 
   def new
-    data = params[:id].match(/(?<deckType>decklist|deck)\/view\/(?<id>\d{2,9})/i)
+    data = params[:id].match(/(?<deckType>decklist|deck)\/view\/(?<id>\d{2,9})\/?(?<name>.*)/i)
     cards = card_ids(data[:id], data[:deckType]).transform_keys { |card_id| card_image_url(card_id) }
-    send_data PdfGenerator.generate(cards), filename: "cards.pdf"
+    filename = data[:deckType].casecmp("decklist") ? data[:name] : data[:id]
+    send_data PdfGenerator.generate(cards), filename: "#{filename}.pdf"
   rescue
     flash.alert = "Deck not found, is it set to private?"
     render :show
