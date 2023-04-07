@@ -6,8 +6,8 @@ class ProxyController < ActionController::Base
     data = params[:id].match(/(?<deckType>decklist|deck)\/view\/(?<id>\d{2,9})/i)
     # /(?<id>\d{2,9})/ =~ params[:id]
     # /(?<deckType>decklist|deck)/i =~ params[:id]
-    puts data
-    puts "id: #{data[:id]}, decktype: #{data[:deckType]}"
+    p data
+    p "id: #{data[:id]}, decktype: #{data[:deckType]}"
     cards = card_ids(data[:id], data[:deckType]).transform_keys { |card_id| card_image_url(card_id) }
     send_data PdfGenerator.generate(cards), filename: "cards.pdf"
   rescue
@@ -16,8 +16,8 @@ class ProxyController < ActionController::Base
   end
 
   def card_ids(deck_id, deck_type)
-    decklist_api = "https://arkhamdb.com/api/public/"
-    HTTParty.get(decklist_api + deck_type + deck_id)["slots"].reject {|id, quantity| id == "01000"}
+    # decklist_api = "https://arkhamdb.com/api/public/"
+    HTTParty.get("https://arkhamdb.com/api/public/#{deck_type}/#{deck_id}")["slots"].reject {|id, quantity| id == "01000"}
   end
 
   def deck
