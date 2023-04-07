@@ -7,7 +7,7 @@ class ProxyController < ActionController::Base
     # /(?<id>\d{2,9})/ =~ params[:id]
     # /(?<deckType>decklist|deck)/i =~ params[:id]
     puts data
-    puts "id: " data[:id] + "  decktype: " data[:deckType]
+    puts "id: #{data[:id]}, decktype: #{data[:deckType]}"
     cards = card_ids(data[:id], data[:deckType]).transform_keys { |card_id| card_image_url(card_id) }
     send_data PdfGenerator.generate(cards), filename: "cards.pdf"
   rescue
