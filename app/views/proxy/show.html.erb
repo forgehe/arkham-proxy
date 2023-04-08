@@ -33,15 +33,14 @@
                         <h2 class="section-title mt-0 text-center">Deck Import</h2>
                         <h3>Note: sideboard cards are not included</h3>
                         <p>
-                          <%= form_tag('/deck', method: "get") do %>
-                            <%= label_tag(:q, "Decklist link") %>
-                            <%= text_field_tag(:id) %>
-                            <%= submit_tag("Get pdf") %>
-                          <% end %>
-
-                          <% if flash[:alert] %>
-                              <div class="alert"> <%= flash[:alert] %> </div>
-                          <% end %>
+                            <%= form_with url: "/deck", data: { disable_with: false } do |form| %>
+                                <%= form.label :query, "ArkhamDB Decklist Link:" %>
+                                <%= form.text_field :query %>
+                                <%= form.submit "Generate PDF" %>
+                            <% end %>
+                            <% if flash[:alert] %>
+                                <div class="alert"> <%= flash[:alert] %> </div>
+                            <% end %>
                         </p>
 
                     </div>
