@@ -16,9 +16,10 @@ class ProxyController < ActionController::Base
 
   def card_ids(deck_id, deck_type)
     data = HTTParty.get("https://arkhamdb.com/api/public/#{deck_type}/#{deck_id}")
-    p data
-    p HTTParty.get("https://arkhamdb.com/api/public/#{deck_type}/#{deck_id}")["slots"].reject {|id, quantity| id == "01000"}
-    HTTParty.get("https://arkhamdb.com/api/public/#{deck_type}/#{deck_id}")["slots"].reject {|id, quantity| id == "01000"}
+    output = data["slots"].merge(data["sideSlots"]).reject {|id, quantity| id == "01000"}
+    p output
+    output
+    # HTTParty.get("https://arkhamdb.com/api/public/#{deck_type}/#{deck_id}")["slots"].reject {|id, quantity| id == "01000"}
   end
 
   def card_image_url(card_id)
