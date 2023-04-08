@@ -31,16 +31,15 @@
                 <div class="container">
                     <div class="section-inner has-top-divider">
                         <h2 class="section-title mt-0 text-center">Deck Import</h2>
-                        <h3>Note: sideboard cards are not included</h3>
                         <p>
-                            <%= form_with url: "/deck", data: { disable_with: false } do |form| %>
-                                <%= form.label :query, "ArkhamDB Decklist Link:" %>
-                                <%= form.text_field :query %>
-                                <%= form.submit "Generate PDF" %>
+                            <%= form_tag('/deck', method: "post") do %>
+                                <%= label_tag(:q, "ArkhamDB Decklist Link:") %>
+                                <%= text_field_tag(:id) %>
+                                <%= submit_tag("Generate PDF"), data: { disable_with: false } %>
                             <% end %>
-                            <% if flash[:alert] %>
-                                <div class="alert"> <%= flash[:alert] %> </div>
-                            <% end %>
+                          <% if flash[:alert] %>
+                              <div class="alert"> <%= flash[:alert] %> </div>
+                          <% end %>
                         </p>
 
                     </div>
