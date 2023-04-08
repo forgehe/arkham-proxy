@@ -15,6 +15,9 @@ class ProxyController < ActionController::Base
   end
 
   def card_ids(deck_id, deck_type)
+    data = HTTParty.get("https://arkhamdb.com/api/public/#{deck_type}/#{deck_id}")
+    p data
+    p HTTParty.get("https://arkhamdb.com/api/public/#{deck_type}/#{deck_id}")["slots"].reject {|id, quantity| id == "01000"}
     HTTParty.get("https://arkhamdb.com/api/public/#{deck_type}/#{deck_id}")["slots"].reject {|id, quantity| id == "01000"}
   end
 
