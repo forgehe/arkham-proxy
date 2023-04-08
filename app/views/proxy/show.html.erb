@@ -35,7 +35,7 @@
                             <%= form_tag('/deck', method: "post") do %>
                                 <%= label_tag(:q, "ArkhamDB Decklist Link:") %>
                                 <%= text_field_tag(:id) %>
-                                <%= submit_tag("Generate PDF"), data: { disable_with: false } %>
+                                <%= submit_tag("Generate PDF", data: { disable_with: false }) %>
                             <% end %>
                           <% if flash[:alert] %>
                               <div class="alert"> <%= flash[:alert] %> </div>
