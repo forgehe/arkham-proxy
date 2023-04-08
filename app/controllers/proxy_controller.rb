@@ -22,9 +22,10 @@ class ProxyController < ActionController::Base
     output = data["slots"]
     p "output"
     p output
-    p "data Sideboard"
-    p data["sideSlots"]
-    if data["sideSlots"]
+    p "data Sideboard?"
+    p data.has_key?(:sideSlots)
+    if data.has_key?(:sideSlots)
+      p "has sideboard"
       output.merge(data["sideSlots"]){|_,x,y| x + y}
     end
     p "output 2"
