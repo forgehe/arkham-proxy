@@ -22,7 +22,8 @@ class ProxyController < ActionController::Base
       p "merging"
       p data["slots"]
       p data["sideSlots"]
-      output.merge(data["sideSlots"]){|_,x,y| x + y}
+      output = output.merge(data["sideSlots"]){|_,x,y| x + y}
+      p output
     end
     output.reject {|id, quantity| id == "01000"}
   end
