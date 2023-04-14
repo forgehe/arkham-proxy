@@ -15,7 +15,12 @@ class ProxyController < ActionController::Base
   def card_ids(deck_id, deck_type)
     data = HTTParty.get("https://arkhamdb.com/api/public/#{deck_type}/#{deck_id}")
     output = data["slots"]
+    p "data side slots?"
+    p data.has_key?(:sideSlots)
     if data.has_key?(:sideSlots)
+      p "merging"
+      p data["slots"]
+      p data["sideSlots"]
       output.merge(data["sideSlots"]){|_,x,y| x + y}
     end
     output.reject {|id, quantity| id == "01000"}
