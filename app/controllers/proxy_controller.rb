@@ -17,6 +17,7 @@ class ProxyController < ActionController::Base
     output = data["slots"]
     p "data side slots?"
     p data.has_key?(:sideSlots)
+    p data
     if data.has_key?(:sideSlots)
       p "merging"
       p data["slots"]
