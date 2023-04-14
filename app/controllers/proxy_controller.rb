@@ -16,9 +16,9 @@ class ProxyController < ActionController::Base
     data = HTTParty.get("https://arkhamdb.com/api/public/#{deck_type}/#{deck_id}")
     output = data["slots"]
     p "data side slots?"
-    p data.has_key?(:sideSlots)
+    p data.has_key?("sideSlots")
     p data
-    if data.has_key?(:sideSlots)
+    if data.has_key?("sideSlots")
       p "merging"
       p data["slots"]
       p data["sideSlots"]
