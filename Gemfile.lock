@@ -194,8 +194,8 @@ DEPENDENCIES
   jquery-rails
   listen (~> 3.0.5)
   prawn
-  puma (~> 3.0)
-  rails (~> 5.0)
+  puma (~> 3)
+  rails (~> 5)
   sass-rails (~> 5.0)
   spring
   spring-watcher-listen (~> 2.0.0)
