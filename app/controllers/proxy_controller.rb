@@ -4,7 +4,7 @@ class ProxyController < ActionController::Base
 
   def new
     data = params[:id].match(/(?<deckType>decklist|deck)\/view\/(?<id>\d{2,9})\/?(?<name>.*)/i)
-    cards = card_ids(data[:id], data[:deckType]).transform_keys { |card_id| card_image_url(card_id) }
+    cards = card_ids(data[:id], data[:deckType])
     filename = data[:deckType].casecmp("decklist") == 0 ? data[:name] : data[:id]
     send_data PdfGenerator.generate(cards), filename: "#{filename}.pdf"
   rescue
@@ -14,21 +14,45 @@ class ProxyController < ActionController::Base
 
   def card_ids(deck_id, deck_type)
     data = HTTParty.get("https://arkhamdb.com/api/public/#{deck_type}/#{deck_id}")
-    output = data["slots"]
+    output = (investigator_cards(data["investigator_code"]))
+    output.push(*transform_arkhamdb_data(data["slots"]))
     if data.key?("sideSlots") && data["sideSlots"].empty? == false
-      
-      output = output.merge(data["sideSlots"]){|_,x,y| x + y}
+      output.push(*transform_arkhamdb_data(data["sideSlots"]))
     end
-    output.reject {|id, quantity| id == "01000"}
+    output
+  end
+
+  def investigator_cards(investigator_code)
+    output = [
+      {
+        card_image: card_image_url(investigator_code), 
+        quantity: 1, 
+        rotation: true
+      }, 
+      {
+        card_image: card_image_url(investigator_code, "backimagesrc"), 
+        quantity: 1, 
+        rotation: true
+      }
+    ]
   end
 
   def card_image_url(card_id, src = "imagesrc")
     card_image_src = HTTParty.get("https://arkhamdb.com/api/public/card/#{card_id}")[src]
-    # p card_image_src
     "https://arkhamdb.com#{card_image_src}"
   end
 
-  def card_images_investigator(card_id, data)
-    
+  def transform_arkhamdb_data(data)
+    output = []
+    data = data.reject {|id, quantity| id == "01000"}
+    data.each do |card_id, qty|
+      obj = {
+        card_image: card_image_url(card_id), 
+        quantity: qty, 
+        rotation: false
+      }
+      output.append(obj)
+    end
+    output
   end
 end
