@@ -3,8 +3,6 @@ require 'open-uri'
 
 module PdfGenerator
   def self.generate(cards)
-    p "pdf received"
-    p cards
     pdf = Prawn::Document.new(:page_size => "LETTER", :page_layout => :portrait, print_scaling: :none, margin: 0)
     reset_cursor
     cards.each do |card|
@@ -14,7 +12,13 @@ module PdfGenerator
   end
 
   def self.add_image_to_pdf(pdf, img_url, rotation)
-    pdf.image URI.open(img_url), width: 2.495.in, at: [@@x_position, @@y_position]
+    if rotation
+      pdf.rotate(90, origin: [@@x_position, @@y_position]) do  
+        pdf.image URI.open(img_url), height: 2.495.in, at: [@@x_position-3.5.in, @@y_position]
+      end
+    else
+      pdf.image URI.open(img_url), width: 2.495.in, at: [@@x_position, @@y_position]
+    end
     if ((@@x_position += 2.5.in) > 6.in)
       @@x_position = 0.5.in
       if ((@@y_position -= 3.5.in) < 1.5.in)
@@ -22,6 +26,7 @@ module PdfGenerator
         pdf.start_new_page
       end
     end
+
   end
 
   def self.reset_cursor
