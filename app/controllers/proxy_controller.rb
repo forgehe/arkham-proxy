@@ -15,6 +15,7 @@ class ProxyController < ActionController::Base
   def card_ids(deck_id, deck_type)
     data = HTTParty.get("https://arkhamdb.com/api/public/#{deck_type}/#{deck_id}")
     output = (investigator_cards(data["investigator_code"]))
+    # output = []
     output.push(*transform_arkhamdb_data(data["slots"]))
     if data.key?("sideSlots") && data["sideSlots"].empty? == false
       output.push(*transform_arkhamdb_data(data["sideSlots"]))
@@ -38,8 +39,14 @@ class ProxyController < ActionController::Base
   end
 
   def card_image_url(card_id, src = "imagesrc")
-    card_image_src = HTTParty.get("https://arkhamdb.com/api/public/card/#{card_id}")[src]
-    "https://arkhamdb.com#{card_image_src}"
+    data = HTTParty.get("https://arkhamdb.com/api/public/card/#{card_id}")
+    p data
+    if data.key?(src)
+      card_image_src = "https://arkhamdb.com#{data[src]}"
+    else
+      card_image_src = nil
+    end
+      card_image_src
   end
 
   def transform_arkhamdb_data(data)
@@ -51,7 +58,9 @@ class ProxyController < ActionController::Base
         quantity: qty, 
         rotation: false
       }
-      output.append(obj)
+      if obj[:card_image]
+        output.append(obj)
+      end
     end
     output
   end
