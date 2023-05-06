@@ -12,6 +12,14 @@ module PdfGenerator
   end
 
   def self.add_image_to_pdf(pdf, img_url, rotation)
+    if (@@x_position > 6.in)
+      @@x_position = 0.5.in
+      @@y_position -= 3.5.in
+      if (@@y_position < 1.5.in)
+        @@y_position = 10.75.in
+        pdf.start_new_page
+      end
+    end
     if rotation
       pdf.rotate(90, origin: [@@x_position, @@y_position]) do  
         pdf.image URI.open(img_url), height: 2.495.in, at: [@@x_position-3.5.in, @@y_position]
@@ -19,14 +27,7 @@ module PdfGenerator
     else
       pdf.image URI.open(img_url), width: 2.495.in, at: [@@x_position, @@y_position]
     end
-    if ((@@x_position += 2.5.in) > 6.in)
-      @@x_position = 0.5.in
-      if ((@@y_position -= 3.5.in) < 1.5.in)
-        @@y_position = 10.75.in
-        pdf.start_new_page
-      end
-    end
-
+    @@x_position += 2.5.in
   end
 
   def self.reset_cursor
