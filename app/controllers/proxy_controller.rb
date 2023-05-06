@@ -3,8 +3,8 @@ class ProxyController < ActionController::Base
   end
 
   def new
-    data = params[:id].match(/(?<deckType>decklist|deck)\/view\/(?<id>\d{2,9})\/?(?<name>.*)/i)
-    cards = card_ids(data[:id], data[:deckType])
+    data = params[:decklist].match(/(?<deckType>decklist|deck)\/view\/(?<id>\d{2,9})\/?(?<name>.*)/i)
+    cards = card_ids(data[:id], data[:deckType], params[:investigator], params[:mainboard], params[:sideboard])
     filename = data[:deckType].casecmp("decklist") == 0 ? data[:name] : data[:id]
     send_data PdfGenerator.generate(cards), filename: "#{filename}.pdf"
   rescue
@@ -12,12 +12,13 @@ class ProxyController < ActionController::Base
     render :show
   end
 
-  def card_ids(deck_id, deck_type)
+  def card_ids(deck_id, deck_type, investigator, mainboard, sideboard)
     data = HTTParty.get("https://arkhamdb.com/api/public/#{deck_type}/#{deck_id}")
-    output = (investigator_cards(data["investigator_code"]))
-    # output = []
-    output.push(*transform_arkhamdb_data(data["slots"]))
-    if data.key?("sideSlots") && data["sideSlots"].empty? == false
+    output = (investigator == "1" ? (investigator_cards(data["investigator_code"])) : [])
+    if mainboard == "1"
+      output.push(*transform_arkhamdb_data(data["slots"]))
+    end
+    if sideboard == "1" && data.key?("sideSlots") && data["sideSlots"].empty? == false
       output.push(*transform_arkhamdb_data(data["sideSlots"]))
     end
     output
@@ -40,7 +41,6 @@ class ProxyController < ActionController::Base
 
   def card_image_url(card_id, src = "imagesrc")
     data = HTTParty.get("https://arkhamdb.com/api/public/card/#{card_id}")
-    p data
     if data.key?(src)
       card_image_src = "https://arkhamdb.com#{data[src]}"
     else
